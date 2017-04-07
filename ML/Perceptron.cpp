@@ -1,6 +1,5 @@
 #include "Perceptron.h"
 #include <cmath>
-#include "../../../SharkuLibrary/GSL/span.h"
 
 double Perceptron::FeedForward(const vector<double> NewInput)
 {
@@ -143,8 +142,6 @@ int main()
 
 	std::cout << std::endl;
 
-
-	gsl::span<int, 3>;
 	
 	return 0;
 }
