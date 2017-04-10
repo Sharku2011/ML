@@ -1,4 +1,5 @@
 #include "Perceptron.h"
+#include <gsl\gsl>
 #include <cmath>
 
 double Perceptron::FeedForward(const vector<double> NewInput)
@@ -67,7 +68,36 @@ void Perceptron::PropBackward(const double& Target, const double& LearningRate /
 	FeedForward(Input);
 }
 
-std::ostream & operator<<(std::ostream & c, const Perceptron& P)
+void Perceptron::PropBackward(const double& Target, double&& LearningRate /*= 0.1*/)
+{
+
+	const double Grad = (Output - Target) * GetActivationGrad(std::move(Output), &Perceptron::Sigmoid);
+
+	for (size_t i = 0; i < InputSize; ++i)
+	{
+		Weight[i] -= LearningRate * Grad;
+	}
+
+	Bias -= LearningRate * Grad * 1.0;
+	FeedForward(Input);
+}
+
+void Perceptron::PropBackward(double&& Target, double&& LearningRate /*= 0.1*/)
+{
+
+	const double Grad = (Output - Target) * GetActivationGrad(std::move(Output), &Perceptron::Sigmoid);
+
+	for (size_t i = 0; i < InputSize; ++i)
+	{
+		Weight[i] -= LearningRate * Grad;
+	}
+
+	Bias -= LearningRate * Grad * 1.0;
+	FeedForward(Input);
+}
+
+
+std::ostream& operator<<(std::ostream & c, const Perceptron& P)
 {
 	c << "Size : " << P.InputSize << endl;
 
@@ -126,7 +156,7 @@ int main()
 	for (int i = 0; i < 100; ++i)
 	{
 		std::cout << "\nTraining" << i+1 << std::endl;
-		MyPerceptron.PropBackward(std::move(Target));
+		MyPerceptron.PropBackward(Target, 0.1f);
 
 		cout << MyPerceptron << endl;
 
@@ -140,8 +170,17 @@ int main()
 	
 	cout << MyPerceptron << endl;
 
-	std::cout << std::endl;
+	std::cout << std::endl << std::endl;
 
-	
+	vector<double> NewInput;
+
+	NewInput.reserve(2);
+	//NewInput.push_back(2.3);
+	//NewInput.push_back(1.7);
+
+	NewInput << 2.3;
+	NewInput << 1.7;
+
+	cout << MyPerceptron.FeedForward(NewInput) << endl;
 	return 0;
 }
