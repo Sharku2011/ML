@@ -1,6 +1,8 @@
 #include "Perceptron.h"
 #include <gsl\gsl>
 #include <cmath>
+#include "EnumLibrary.h"
+#include "BaseNode.h"
 
 double Perceptron::FeedForward(const vector<double> NewInput)
 {
@@ -128,11 +130,34 @@ std::ostream& operator<<(std::ostream & c, const Perceptron& P)
 	return c;
 }
 
+void Test();
+
+double getElectronDensity(double T, double E_g = 1.792e-19, double K = 1.38e-23)
+{
+	return 5.2 * 1e15 * pow(T, 1.5) * exp(-E_g / (2 * K * T));
+}
+
 int main()
 {
-	// 소수점 및 n번째 자리까지 출력
-	cout.precision(11);
+	// 소수점 밑 n번째 자리까지 출력
+	cout.precision(8);
+
+	// 소수점 이하 자리의 0도 무시하지 않고 출력
+	cout.setf(ios::showpoint);
+
+	double a = getElectronDensity(300.0);
+	double b = pow(1.08e10, 2) / 1e16;
 	
+	cout << a << endl << b << endl;
+
+	return 0;
+}
+
+void Test()
+{
+	// 소수점 밑 n번째 자리까지 출력
+	cout.precision(11);
+
 	// 소수점 이하 자리의 0도 무시하지 않고 출력
 	cout.setf(ios::showpoint);
 
@@ -146,7 +171,7 @@ int main()
 	Init_Input.push_back(5.0);
 	Init_Input.push_back(7.0);
 
-	Perceptron MyPerceptron(Init_Weight, 1.0);	
+	Perceptron MyPerceptron(Init_Weight, 1.0);
 
 	MyPerceptron.FeedForward(Init_Input);
 	cout << MyPerceptron << endl;
@@ -155,7 +180,7 @@ int main()
 
 	for (int i = 0; i < 100; ++i)
 	{
-		std::cout << "\nTraining" << i+1 << std::endl;
+		std::cout << "\nTraining" << i + 1 << std::endl;
 		MyPerceptron.PropBackward(Target, 0.1f);
 
 		cout << MyPerceptron << endl;
@@ -165,22 +190,19 @@ int main()
 			break;
 		}
 	}
-	
+
 	std::cout << "\nTraining Complete" << std::endl;
-	
-	cout << MyPerceptron << endl;
+
+	std::cout << MyPerceptron << std::endl;
 
 	std::cout << std::endl << std::endl;
 
 	vector<double> NewInput;
 
 	NewInput.reserve(2);
-	//NewInput.push_back(2.3);
-	//NewInput.push_back(1.7);
 
-	NewInput << 2.3;
-	NewInput << 1.7;
+	NewInput << 2.3 << 1.7;
 
-	cout << MyPerceptron.FeedForward(NewInput) << endl;
-	return 0;
+
+	std::cout << MyPerceptron.FeedForward(NewInput) << std::endl;
 }

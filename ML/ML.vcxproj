@@ -142,9 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseNode.h" />
+    <ClInclude Include="EnumLibrary.h" />
     <ClInclude Include="Perceptron.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseNode.cpp" />
     <ClCompile Include="Perceptron.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

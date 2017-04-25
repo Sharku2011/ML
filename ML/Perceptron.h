@@ -9,7 +9,11 @@ using namespace std;
 
 #ifndef SHARKU
 #define SHARKU
-static vector<double>& operator<<(vector<double>& v, double d) { v.push_back(d); return v; };
+template <class T>
+static vector<T>& operator<<(vector<T>& v, T d) { v.push_back(d); return v; };
+
+template <class T>
+static T& operator<<(T& d, vector<T>& v) { d = v.back(); return d; };
 #endif //SHARKU
 
 class Perceptron
