@@ -1,8 +1,15 @@
 #include "Perceptron.h"
 #include <gsl\gsl>
 #include <cmath>
+#include <random>
+#include "Graph.h"
 #include "EnumLibrary.h"
 #include "BaseNode.h"
+#include <string>
+#include <regex>
+
+void EX_LinearRegression();
+void Test();
 
 double Perceptron::FeedForward(const vector<double> NewInput)
 {
@@ -130,28 +137,28 @@ std::ostream& operator<<(std::ostream & c, const Perceptron& P)
 	return c;
 }
 
-void Test();
-
-double getElectronDensity(double T, double E_g = 1.792e-19, double K = 1.38e-23)
+double Perceptron::Sxx(const Graph& G)
 {
-	return 5.2 * 1e15 * pow(T, 1.5) * exp(-E_g / (2 * K * T));
+	double result = 0;
+
+	for (std::vector<double> Coord : *G.GetCoords())
+	{
+		;
+	}
+
+	return result;
+	// sigma (E(x) - x_i)^2
 }
 
 int main()
 {
-	// 소수점 밑 n번째 자리까지 출력
-	cout.precision(8);
+	std::string str = "안녕!";
 
-	// 소수점 이하 자리의 0도 무시하지 않고 출력
-	cout.setf(ios::showpoint);
-
-	double a = getElectronDensity(300.0);
-	double b = pow(1.08e10, 2) / 1e16;
+	std::regex reg("안", std::regex_constants::ECMAScript | std::regex_constants::icase);
 	
-	cout << a << endl << b << endl;
-
 	return 0;
 }
+
 
 void Test()
 {
@@ -205,4 +212,45 @@ void Test()
 
 
 	std::cout << MyPerceptron.FeedForward(NewInput) << std::endl;
+}
+
+void EX_LinearRegression()
+{
+
+	std::random_device rd;
+	std::mt19937_64 mt(rd());
+
+	std::uniform_int_distribution<> dist(-5, 5);
+
+	// 소수점 밑 n번째 자리까지 출력
+	cout.precision(8);
+
+	// 소수점 이하 자리의 0도 무시하지 않고 출력
+	cout.setf(ios::showpoint);
+
+	Perceptron InputLayer[10];
+	Perceptron HiddenLayer[15];
+	Perceptron OutputLayer[1];
+
+
+	// 
+	Graph A(2);
+
+	double Tangent = 3.5;
+	double Intercept = 5.6;	// B_0 y절편
+
+	std::vector<double>* VecArr[256];
+
+	for (int i = 0 ; i < 256; ++i)
+	{
+		VecArr[i] = new std::vector<double>();
+		VecArr[i]->reserve(2);
+		VecArr[i]->push_back((double)i);
+		VecArr[i]->push_back(Tangent * i + dist(mt) / 2.0 + Intercept);
+
+		A.Add_Implementation(*VecArr[i]);
+	}
+	A.Update();
+
+	cout << A;
 }

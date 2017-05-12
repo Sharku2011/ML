@@ -24,12 +24,18 @@
     <ClInclude Include="EnumLibrary.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Perceptron.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="BaseNode.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

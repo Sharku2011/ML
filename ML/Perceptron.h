@@ -7,6 +7,8 @@
 
 using namespace std;
 
+class Graph;
+
 #ifndef SHARKU
 #define SHARKU
 template <class T>
@@ -51,6 +53,9 @@ public:
 
 	static double Sigmoid(double&& x) { return 1 / (1 + exp(-x)); };
 	static double ReLU(double&& x) { return MAX2(0, x); };
+	static double Correlation(double&& Sxx, double&& Sxy, double&& Syy) { return Sxy / (sqrt(Sxx)*sqrt(Syy)); };
+
+	static double Sxx(const Graph& G);
 
 	friend ostream& operator<<(ostream& c, const Perceptron& P);
 
